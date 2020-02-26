@@ -20,13 +20,17 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.Button;
 import frc.robot.commands.Aim;
 import frc.robot.commands.ExampleCommand;
-import frc.robot.commands.Shoot;
+import frc.robot.commands.FastShoot;
 import frc.robot.commands.Auto.Easyauto;
 import frc.robot.commands.Auto.Easyauto1;
 import frc.robot.commands.Auto.Easyauto2;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.ExampleSubsystem;
-import frc.robot.subsystems.Powercell;
+import frc.robot.subsystems.Powercell.Aimer;
+import frc.robot.subsystems.Powercell.Arm;
+import frc.robot.subsystems.Powercell.Intake;
+import frc.robot.subsystems.Powercell.Shooter;
+import frc.robot.subsystems.Powercell.Turret;
 import frc.robot.subsystems.Vision;
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -38,35 +42,28 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final Drivetrain       m_drivetrain       = new Drivetrain();
-  private final Powercell        m_powercell        = new Powercell();
+  private final Turret           m_turret           = new Turret();
+  private final Intake           m_intake           = new Intake();
+  private final Shooter          m_shooter          = new Shooter();
+  private final Aimer            m_aimer            = new Aimer();
+  private final Arm              m_arm             = new Arm();
+  
   private final Vision           m_vision           = new Vision();
   private final Joystick         joystick           = new Joystick(0);
   private final Joystick         drivestation       = new Joystick(2);
   //private final ExampleCommand   m_autoCommand      = new ExampleCommand(m_exampleSubsystem);
   private final SendableChooser<Command> m_chooser = new SendableChooser<>();
-  private final Easyauto m_easyauto = new Easyauto(m_powercell,m_drivetrain,m_vision);
-  private final Easyauto1 m_easyauto1 = new Easyauto1(m_powercell,m_drivetrain,m_vision);
-  private final Easyauto2 m_easyauto2 = new Easyauto2(m_powercell,m_drivetrain,m_vision);
-  /*private final Command m_autoCommand = new StartEndCommand(
-    // Start driving forward at the start of the command
-    () -> m_drivetrain.curvaturedrive(0.1,0,false),
-    // Stop driving at the end of the command
-    () -> m_drivetrain.curvaturedrive(0.1,0,false),
-    // Requires the drive subsystem
-    m_drivetrain)
-    // Reset the encoders before starting
-    // End the command when the robot's driven distance exceeds the desired value
-    .withInterrupt(
-        () -> m_drivetrain.curvaturedrive(0.1,0,false)>100);*/
-/**
-   * The container for the robot.  Contains subsystems, OI devices, and commands.
-   */
+  private final Easyauto m_easyauto = new Easyauto(m_turret,m_drivetrain,m_vision,m_intake,m_shooter,m_aimer);
+  private final Easyauto1 m_easyauto1 = new Easyauto1(m_drivetrain,m_vision);
+  private final Easyauto2 m_easyauto2 = new Easyauto2(m_shooter,m_drivetrain,m_vision);
+ 
   public RobotContainer() {
     
     // Configure the button bindings
     configureButtonBindings();
     m_drivetrain.setDefaultCommand(new RunCommand(()->
     m_drivetrain.curvaturedrive(joystick.getY(), 0.3*joystick.getZ(),joystick.getRawButton(1)),m_drivetrain));
+
     m_chooser.addOption("Simple AutoUP", m_easyauto);
     m_chooser.addOption("Simple AutoMID", m_easyauto1);
     m_chooser.addOption("Simple AutoDOWN", m_easyauto2);
@@ -85,15 +82,17 @@ public class RobotContainer {
   private void configureButtonBindings() {
     
     //new JoystickButton(drivestation, Button.turrethoming).whenHeld(new InstantCommand(m_powercell::turrethoming,m_powercell));
-    new JoystickButton(drivestation, Button.aim)         .whenHeld(new Aim(m_powercell, m_vision,m_drivetrain));
-    new JoystickButton(drivestation, Button.shoot)       .whenHeld(new Shoot(m_powercell));
-    new JoystickButton(drivestation, Button.wide)        .whenPressed(new InstantCommand(m_powercell::widein,m_powercell)).whenReleased(new InstantCommand(m_powercell::widestop,m_powercell));
-    new JoystickButton(joystick,     Button.intake)      .whenPressed(new InstantCommand(m_powercell::intake,m_powercell)).whenReleased(new InstantCommand(m_powercell::intakestop,m_powercell));
-    new JoystickButton(drivestation, Button.armup)       .whenPressed(new InstantCommand(m_powercell::armup,m_powercell)).whenReleased(new InstantCommand(m_powercell::armstop,m_powercell));
-    new JoystickButton(drivestation, Button.armdown)     .whenPressed(new InstantCommand(m_powercell::armdown,m_powercell)).whenReleased(new InstantCommand(m_powercell::armstop,m_powercell));
-    new JoystickButton(drivestation, Button.turretleft)  .whenPressed(new InstantCommand(m_powercell::turretleft,m_powercell)).whenReleased(new InstantCommand(m_powercell::turretstop,m_powercell));
-    new JoystickButton(drivestation, Button.turretright) .whenPressed(new InstantCommand(m_powercell::turretright,m_powercell)).whenReleased(new InstantCommand(m_powercell::turretstop,m_powercell));
-    new JoystickButton(drivestation, 4) .whenPressed(new InstantCommand(m_powercell::conveyor,m_powercell)).whenReleased(new InstantCommand(m_powercell::conveyorstop,m_powercell));
+
+    new JoystickButton(drivestation, Button.aim)         .whenHeld(new Aim(m_turret, m_vision,m_aimer));
+    new JoystickButton(drivestation, Button.shoot)       .whenHeld(new FastShoot(m_shooter));
+   // new JoystickButton(drivestation, Button.wide)        .whenPressed(new InstantCommand(m_powercell::widein,m_powercell)).whenReleased(new InstantCommand(m_powercell::widestop,m_powercell));
+    //new JoystickButton(drivestation, 4)                  .whenPressed(new InstantCommand(m_intake::intake,m_intake)).whenReleased(new InstantCommand(m_intake::intakestop,m_intake));
+    new JoystickButton(joystick,     Button.intake)      .whenPressed(new InstantCommand(m_intake::intake,m_intake)).whenReleased(new InstantCommand(m_intake::intakestop,m_intake));
+    new JoystickButton(drivestation, Button.armup)       .whenPressed(new InstantCommand(m_arm::armup,m_arm)).whenReleased(new InstantCommand(m_arm::armstop,m_arm));
+    new JoystickButton(drivestation, Button.armdown)     .whenPressed(new InstantCommand(m_arm::armdown,m_arm)).whenReleased(new InstantCommand(m_arm::armstop,m_arm));
+    new JoystickButton(drivestation, Button.turretleft)  .whenPressed(new InstantCommand(m_turret::turretleft,m_turret)).whenReleased(new InstantCommand(m_turret::turretstop,m_turret));
+    new JoystickButton(drivestation, Button.turretright) .whenPressed(new InstantCommand(m_turret::turretright,m_turret)).whenReleased(new InstantCommand(m_turret::turretstop,m_turret));
+    
   }
 
 
@@ -104,6 +103,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return m_chooser.getSelected();
+    return m_easyauto;
   }
 }

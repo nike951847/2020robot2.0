@@ -9,18 +9,19 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Powercell;
+import frc.robot.subsystems.Powercell.Shooter;
 
 
-public class Shoot extends CommandBase {
-  private  Powercell powercellsub;
+public class FastShoot extends CommandBase {
+  private Shooter m_Shooter;
   private int i;
+
   /**
    * Creates a new Shoot.
    */
-  public Shoot(Powercell powercell) {
-   powercellsub= powercell;
-    addRequirements(powercellsub);
+  public FastShoot(Shooter shooter) {
+   m_Shooter = shooter;
+    addRequirements(m_Shooter);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -32,16 +33,19 @@ public class Shoot extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    powercellsub.flywheelspinup();
-    //powercellsub.conveyor();
+    m_Shooter.flywheelspinup(10000);
+    m_Shooter.fastconveyor();
     i++;
     SmartDashboard.putString("飛輪狀況", "飛輪加速");
+    
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    powercellsub.flywheelstop();
+    m_Shooter.flywheelstop();
+
+    m_Shooter.conveyorstop();
     SmartDashboard.putString("飛輪狀況", "飛輪停止");
     i=0;
   }

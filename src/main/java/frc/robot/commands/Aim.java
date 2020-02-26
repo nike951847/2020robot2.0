@@ -10,27 +10,27 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Powercell;
+import frc.robot.subsystems.Powercell.Aimer;
+import frc.robot.subsystems.Powercell.Turret;
 import frc.robot.subsystems.Vision;
 
 
 public class Aim extends CommandBase {
-  private Powercell powercellsub;
+  private Turret turretsub;
   private Vision visionsub;
+  private Aimer  aimer;
   private Drivetrain drivetrainsub;
   double x;
   /**
    * Creates a new Aim.
    */
-  public Aim(Powercell powercell,Vision vision,Drivetrain drivetrain) {
-    powercellsub = powercell;
+  public Aim(Turret turret,Vision vision,Aimer aimer) {
+    turretsub = turret;
     visionsub = vision;
-    drivetrainsub =drivetrain;
 
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(powercellsub);
+    addRequirements(turretsub);
     addRequirements(visionsub);
-    addRequirements(drivetrainsub);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -46,18 +46,17 @@ public class Aim extends CommandBase {
   //  drivetrainsub.distaim(visionsub.getDisterr());
     x=visionsub.getx();
     SmartDashboard.putNumber("getx", x);
-    powercellsub.turretaim(x);
+    turretsub.turretaim(x);
     
-   SmartDashboard.putString("ok", "yee");
   }
   
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-   powercellsub.turretaim(0);
+   turretsub.turretaim(0);
    // drivetrainsub.distaim(0);
-   SmartDashboard.putString("ok", "yeeeeee");
+
   
   }
 
@@ -65,6 +64,6 @@ public class Aim extends CommandBase {
   @Override
   public boolean isFinished() {
   
-    return powercellsub.turretfinish();
+    return turretsub.turretfinish();
   }
 }

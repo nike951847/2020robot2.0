@@ -26,8 +26,8 @@ public final class Constants {
         public static final int timeoutMs = 10;
         public static final double rotationPerPulse = 2048;
         public static final double wheeldiameter = 0.203;
-        public static final double kP = 0.01;
-        public static final double kF = 0.04;
+        public static final double kP = 0.03;
+        public static final double kF = 0.0506;
         public static final double k = 0.01;
         public static final double Ramptime = 1.5;
         public static final int falconCPR =2048; 
@@ -36,6 +36,7 @@ public final class Constants {
 
     }
     public static class PowCon{
+        public static final int aimerID = 8;
         public static final int flywheelID =4;
         public static final int conveyorID = 2;
         public static final int intakearmmasID = 0;
@@ -43,9 +44,9 @@ public final class Constants {
         public static final int intakeID = 3;
         public static final int wideID = 1;
         public static final double rotationPerPulse = 2048;
-        public static final double kP = 0.01;
+        public static final double kP = 0.1;
         public static final double turretkP = 0.01;
-        public static final double kF = 0.25;
+        public static final double kF = 0.0506;
         public static final double k = 0.01;
         public static final int falconCPR =2048;
         public static final int turretCPR =7;
@@ -59,7 +60,7 @@ public final class Constants {
     public static class VisCon{
         public static final double targetheight = 205;
         public static final double limeheight = 50;
-        public static final double limeangle = 42;
+        public static final double limeangle = 33;
         public static final double targetDist = 4;
         public static final double threshold = 0.3;
     

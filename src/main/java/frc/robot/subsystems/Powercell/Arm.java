@@ -12,29 +12,50 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.PowCon;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Arm extends SubsystemBase {
-  WPI_VictorSPX arm = new WPI_VictorSPX(PowCon.intakearmmasID);
+  private WPI_VictorSPX arm = new WPI_VictorSPX(PowCon.intakearmmasID);
+  private DigitalInput forwardlimit = new DigitalInput(PowCon.forlimitID);
+  private DigitalInput backwardlimit = new DigitalInput(PowCon.backlimitID);
+  String status;
   /**
    * Creates a new Arm.
    */
+
   public Arm() {
     arm.setInverted(false);
-
-
-  }
-  public void armup(){
-    arm.set(ControlMode.PercentOutput,-0.5);
   }
   public void armdown(){
-    arm.set(ControlMode.PercentOutput,0.3);
+    arm.set(ControlMode.PercentOutput,-0.3);
+  }
+  public void armup(){
+    arm.set(ControlMode.PercentOutput,0.5);
   }
   public void armstop(){
     arm.set(ControlMode.PercentOutput,0.0);
   }
+  public String getarmstatus(){
+    if(forwardlimit.get()&&!backwardlimit.get()){
+    status ="UP" ;
+  }
+    else if(forwardlimit.get()){
+      status = "Down";
+    }
+    else if(!forwardlimit.get()&!backwardlimit.get()){
+      status = "MID";
+    }
+    else{
+      status = "ERR";
+
+    }
+    return status;
+  }
 
   @Override
   public void periodic() {
+    SmartDashboard.putString("ArmStatus", status);
     // This method will be called once per scheduler run
   }
 }

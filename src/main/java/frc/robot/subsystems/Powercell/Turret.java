@@ -21,19 +21,16 @@ public class Turret extends SubsystemBase {
   private WPI_TalonSRX turret = new WPI_TalonSRX(PowCon.turretID);
 
   private double target;
-  private Setmotor setmotor;
+
+  private Setmotor setmotor=new Setmotor();
   /**
    * Creates a new Turret.
    */
   public Turret() {
     final SupplyCurrentLimitConfiguration supplyCurrentLimitConfiguration = new SupplyCurrentLimitConfiguration(true,
         20, 20, 1);
-    setmotor.setmotor(turret, supplyCurrentLimitConfiguration, PowCon.turretconfigKP, PowCon.turretkF, InvertType.None, 0, 1, 10);
+    setmotor.setmotor(turret, supplyCurrentLimitConfiguration, 0, 0, InvertType.None, 0, 1, 10);
     turret.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,10);
-    turret.config_kF(0, PowCon.turretkF);
-    turret.config_kP(0, PowCon.turretkP);
-    turret.config_kI(0, 0);
-    turret.config_kD(0, 0);
     turret.configForwardSoftLimitEnable(true);
     turret.configReverseSoftLimitEnable(true);
     turret.configMotionAcceleration(PowCon.maxacc, 10);
@@ -45,7 +42,10 @@ public class Turret extends SubsystemBase {
     turret.setSelectedSensorPosition(0);
   }
   public void turretaim(double targetangle){
-    turret.set(ControlMode.PercentOutput,-0.1*targetangle);
+    if(targetangle>1){
+
+    }
+    turret.set(ControlMode.PercentOutput,PowCon.turretKP*targetangle);
   target = targetangle;
   }
   public boolean turretfinish(){

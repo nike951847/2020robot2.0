@@ -36,6 +36,7 @@ public final class Constants {
 
     }
     public static class PowCon{
+        //馬達ID
         public static final int aimerID = 8;
         public static final int flywheelID =4;
         public static final int conveyorID = 2;
@@ -43,16 +44,43 @@ public final class Constants {
         public static final int turretID = 6;
         public static final int intakeID = 3;
         public static final int wideID = 1;
+        //現位ID
+        public static final int forlimitID =9;
+        public static final int backlimitID = 8;
+
+
         public static final double rotationPerPulse = 2048;
-        public static final double kP = 0.1;
-        public static final double turretkP = 0.01;
-        public static final double kF = 0.0506;
-        public static final double k = 0.01;
         public static final int falconCPR =2048;
         public static final int turretCPR =7;
+        //flywheel PIDF
+        public static final double kP = 0.1;
+        public static final double kF = 0.0506;
+        
+        // 簡單的P控制
+        public static final double turretKP = -0.15;
+        //aimer的PIDF
+        public static final double aimerkF = 0.1;
+        public static final double aimerkP = 0.5;
+        public static final double aimerkI = 0.01;
+        public static final double aimerkD = 0;
+        public static final int aimerizone = 400;
+
+        public static final double deadband = 0.001;
+        public static final double maxVel = 600;
+        public static final double maxAcc = 600;
+
+
+    /*
+        //較複雜的turret Vel PIDF
+        public static final double turretVelKF = 6;
+        public static final double turretVelKP = 1.2;
+        public static final double turretVelkI = 0.1;
+        public static final double turrertVelIzone = 50;
+*/
+
+        
         public static final int maxspeed=2500,maxacc=1500;
-        public static final double turretkF = 30;
-        public static final double turretconfigKP = 6;
+
 
 
 

@@ -7,30 +7,13 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Powercell.Aimer;
-import frc.robot.subsystems.Powercell.Turret;
-import frc.robot.subsystems.Vision;
 
-
-public class Aim extends CommandBase {
-  private Turret turretsub;
-  private Vision visionsub;
-  private Aimer  aimer;
-  private Drivetrain drivetrainsub;
-  double x;
+public class FastAim extends CommandBase {
   /**
-   * Creates a new Aim.
+   * Creates a new FastAim.
    */
-  public Aim(Turret turret,Vision vision,Aimer aimer) {
-    turretsub = turret;
-    visionsub = vision;
-
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(turretsub);
-    addRequirements(visionsub);
+  public FastAim() {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -42,28 +25,16 @@ public class Aim extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    SmartDashboard.putNumber("ㄏ", 22);
-  //  drivetrainsub.di  staim(visionsub.getDisterr());
-    x=visionsub.getx();
-    SmartDashboard.putNumber("getx", x);
-    turretsub.turretaim(x);
-    
   }
-  
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-   turretsub.turretaim(0);
-   // drivetrainsub.distaim(0);
-
-  
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-  
-    return turretsub.turretfinish();
+    return false;
   }
 }

@@ -46,8 +46,7 @@ public class RobotContainer {
   private final Intake           m_intake           = new Intake();
   private final Shooter          m_shooter          = new Shooter();
   private final Aimer            m_aimer            = new Aimer();
-  private final Arm              m_arm             = new Arm();
-  
+  private final Arm              m_arm              = new Arm();
   private final Vision           m_vision           = new Vision();
   private final Joystick         joystick           = new Joystick(0);
   private final Joystick         drivestation       = new Joystick(2);

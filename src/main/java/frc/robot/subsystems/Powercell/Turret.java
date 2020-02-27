@@ -49,8 +49,8 @@ public class Turret extends SubsystemBase {
   target = targetangle;
   }
   public boolean turretfinish(){
-    return false;
-    //return target<2;
+  
+    return target<1;
   }
   public void turretleft() {
     turret.set(ControlMode.PercentOutput,0.5);

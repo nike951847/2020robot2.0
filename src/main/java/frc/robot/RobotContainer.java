@@ -19,13 +19,12 @@ import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.Button;
 import frc.robot.commands.Aim;
-import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.FastShoot;
+import frc.robot.commands.LongShoot;
 import frc.robot.commands.Auto.Easyauto;
 import frc.robot.commands.Auto.Easyauto1;
 import frc.robot.commands.Auto.Easyauto2;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Powercell.Aimer;
 import frc.robot.subsystems.Powercell.Arm;
 import frc.robot.subsystems.Powercell.Intake;
@@ -40,7 +39,6 @@ import frc.robot.subsystems.Vision;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final Drivetrain       m_drivetrain       = new Drivetrain();
   private final Turret           m_turret           = new Turret();
   private final Intake           m_intake           = new Intake();
@@ -84,6 +82,7 @@ public class RobotContainer {
 
     new JoystickButton(drivestation, Button.aim)         .whenHeld(new Aim(m_turret, m_vision,m_aimer));
     new JoystickButton(drivestation, Button.shoot)       .whenHeld(new FastShoot(m_shooter));
+    new JoystickButton(drivestation, 3)                  .whenHeld(new LongShoot(m_shooter));
    // new JoystickButton(drivestation, Button.wide)        .whenPressed(new InstantCommand(m_powercell::widein,m_powercell)).whenReleased(new InstantCommand(m_powercell::widestop,m_powercell));
     //new JoystickButton(drivestation, 4)                  .whenPressed(new InstantCommand(m_intake::intake,m_intake)).whenReleased(new InstantCommand(m_intake::intakestop,m_intake));
     new JoystickButton(joystick,     Button.intake)      .whenPressed(new InstantCommand(m_intake::intake,m_intake)).whenReleased(new InstantCommand(m_intake::intakestop,m_intake));

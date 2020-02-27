@@ -33,10 +33,10 @@ public class FastShoot extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_Shooter.flywheelspinup(10000);
+    m_Shooter.flywheelspinup(12000);
     m_Shooter.fastconveyor();
     i++;
-    SmartDashboard.putString("飛輪狀況", "飛輪加速");
+    SmartDashboard.putString("FlyWheelstatus", "flywheelSpin");
     
   }
 
@@ -44,9 +44,8 @@ public class FastShoot extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_Shooter.flywheelstop();
-
     m_Shooter.conveyorstop();
-    SmartDashboard.putString("飛輪狀況", "飛輪停止");
+    SmartDashboard.putString("FlyWheelstatus", "flywheelStop");
     i=0;
   }
 

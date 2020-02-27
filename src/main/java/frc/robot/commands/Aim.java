@@ -18,8 +18,7 @@ import frc.robot.subsystems.Vision;
 public class Aim extends CommandBase {
   private Turret turretsub;
   private Vision visionsub;
-  private Aimer  aimer;
-  private Drivetrain drivetrainsub;
+  private Aimer  aimersub;
   double x;
   /**
    * Creates a new Aim.
@@ -27,6 +26,8 @@ public class Aim extends CommandBase {
   public Aim(Turret turret,Vision vision,Aimer aimer) {
     turretsub = turret;
     visionsub = vision;
+    aimersub  = aimer;
+
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(turretsub);
@@ -42,8 +43,9 @@ public class Aim extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    SmartDashboard.putNumber("ㄏ", 22);
+   // SmartDashboard.putNumber("ㄏ", 22);
   //  drivetrainsub.di  staim(visionsub.getDisterr());
+ // 
     x=visionsub.getx();
     SmartDashboard.putNumber("getx", x);
     turretsub.turretaim(x);

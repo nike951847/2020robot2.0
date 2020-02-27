@@ -7,13 +7,24 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Vision;
+import frc.robot.subsystems.Powercell.Aimer;
+import frc.robot.subsystems.Powercell.Turret;
 
 public class FastAim extends CommandBase {
+  private Turret turretsub;
+  private Vision visionsub;
+  private Aimer  aimersub;
+  private double x;
   /**
    * Creates a new FastAim.
    */
-  public FastAim() {
+  public FastAim(Turret turret,Vision vision,Aimer aimer) {
+    turretsub = turret;
+    visionsub = vision;
+    aimersub  = aimer;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -25,16 +36,21 @@ public class FastAim extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    x=visionsub.getx();
+    SmartDashboard.putNumber("getx", x);
+    turretsub.turretaim(x);
+
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    turretsub.turretaim(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return turretsub.turretfinish();
   }
 }

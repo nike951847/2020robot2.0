@@ -19,7 +19,7 @@ public class Arm extends SubsystemBase {
   private WPI_VictorSPX arm = new WPI_VictorSPX(PowCon.intakearmmasID);
   private DigitalInput forwardlimit = new DigitalInput(PowCon.forlimitID);
   private DigitalInput backwardlimit = new DigitalInput(PowCon.backlimitID);
-  String status;
+  String status ="MID";
   /**
    * Creates a new Arm.
    */
@@ -28,10 +28,13 @@ public class Arm extends SubsystemBase {
     arm.setInverted(false);
   }
   public void armdown(){
-    arm.set(ControlMode.PercentOutput,-0.3);
+    if(getarmstatus()!="Down"){
+    arm.set(ControlMode.PercentOutput,-0.3);}
   }
   public void armup(){
-    arm.set(ControlMode.PercentOutput,0.5);
+    if(getarmstatus()!="UP"){
+    arm.set(ControlMode.PercentOutput,0.5);}
+    
   }
   public void armstop(){
     arm.set(ControlMode.PercentOutput,0.0);

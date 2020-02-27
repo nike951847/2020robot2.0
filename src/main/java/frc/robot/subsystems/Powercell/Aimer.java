@@ -100,10 +100,10 @@ public class Aimer extends SubsystemBase {
     SmartDashboard.putNumber("Pos", aimer.getSelectedSensorPosition(0));
     SmartDashboard.putNumber("err", aimer.getClosedLoopError(0));
     SmartDashboard.putNumber("out", aimer.getMotorOutputPercent());
-    SmartDashboard.putNumber("unit", unit);
+    //SmartDashboard.putNumber("unit", unit);
     // This method will be called once per scheduler run
     //test
-    unit =3000*joystick.getRawAxis(3);
-    aimunit();
+    //unit =3000*joystick.getRawAxis(3);
+    //aimunit();
   }
 }

@@ -16,15 +16,15 @@ import frc.robot.subsystems.Powercell.Turret;
 public class FastAim extends CommandBase {
   private Turret turretsub;
   private Vision visionsub;
-  private Aimer  aimersub;
   private double x;
   /**
    * Creates a new FastAim.
    */
-  public FastAim(Turret turret,Vision vision,Aimer aimer) {
+  public FastAim(Turret turret,Vision vision) {
     turretsub = turret;
     visionsub = vision;
-    aimersub  = aimer;
+    addRequirements(turret);
+    addRequirements(vision);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 

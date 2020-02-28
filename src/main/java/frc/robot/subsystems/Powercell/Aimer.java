@@ -49,43 +49,58 @@ public class Aimer extends SubsystemBase {
 
   }
   public void aimunit(){
+    
     aimer.set(ControlMode.MotionMagic,unit);
     
     
+  }
+  public boolean isAimfinish(){
+    SmartDashboard.putNumber("err", aimer.getClosedLoopError(0));
+    return Math.abs(aimer.getClosedLoopError(0))<50;
+
   }
 
   public void resetAimer(){
     aimer.setSelectedSensorPosition(0, 0,10);
   }
   public void Uplimit(){
-    aimer.setSelectedSensorPosition(0);
+    aimer.setSelectedSensorPosition(-10000);
   }
   public void Downlimit(){
     aimer.setSelectedSensorPosition(0);
   }
+
   public double getunit(double Dist){
-    if(Dist>800){
+    if(Dist>750){
+      unit = -10000;
 
     }
-    else if(Dist>700){
+    else if(Dist>650){
+      unit=-9000-1000*(Dist-650);
 
     }
-    else if(Dist>600){
+    else if(Dist>550){
+      unit =-8500-500*(Dist-550);
 
     }
-    else if(Dist>500){
+    else if(Dist>450){
+      unit=-7800-700*(Dist-450);
 
     }
-    else if(Dist>400){
+    else if(Dist>350){
+      unit=-6700-1100*(Dist-350);
 
     }
-    else if(Dist>300){
+    else if(Dist>250){
+      unit=-5400-1300*(Dist-250);
 
     }
-    else if(Dist>200){
+    else if(Dist>150){
+      unit=-3000-2400*(Dist-150);
 
     }
     else{
+      unit =0;
 
     }
     

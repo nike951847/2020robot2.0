@@ -44,7 +44,8 @@ public final class Constants {
         public static final int turretID = 6;
         public static final int intakeID = 3;
         public static final int wideID = 1;
-        //現位ID
+        public static final int widefolID = 4;
+        //限位ID
         public static final int forlimitID =9;
         public static final int backlimitID = 8;
 

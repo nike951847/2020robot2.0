@@ -21,10 +21,14 @@ import frc.robot.Setmotor;
 import frc.robot.Constants.PowCon;
 
 public class Shooter extends SubsystemBase {
+
   private SupplyCurrentLimitConfiguration supplyCurrentLimitConfiguration = new SupplyCurrentLimitConfiguration(true, 40, 50, 1);
   private WPI_TalonFX flywheel = new WPI_TalonFX(PowCon.flywheelID);
   private Setmotor setmotor = new Setmotor();
   private WPI_VictorSPX conveyor = new WPI_VictorSPX(PowCon.conveyorID);
+  private WPI_VictorSPX widemas = new WPI_VictorSPX(PowCon.wideID);
+  //private WPI_VictorSPX widefol = new WPI_VictorSPX(PowCon.widefolID);
+
   private double setVel = 0;
   
    /**
@@ -33,6 +37,7 @@ public class Shooter extends SubsystemBase {
   public Shooter() {
     setmotor.setmotor(flywheel, supplyCurrentLimitConfiguration,PowCon.kP ,PowCon.kF,InvertType.None, 0, 1, 10);
     flywheel.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor,0,10);
+    //widefol.setInverted(InvertType.OpposeMaster);
     
 
   }
@@ -69,6 +74,14 @@ public class Shooter extends SubsystemBase {
   public void conveyorstop(){
     conveyor.set(ControlMode.PercentOutput,0.0);
   }
+  public void widein(){
+    widemas.set(-0.5);
+
+  }
+  public void wideout(){
+    widemas.set(0);
+  }
+
 
   @Override
   public void periodic() {

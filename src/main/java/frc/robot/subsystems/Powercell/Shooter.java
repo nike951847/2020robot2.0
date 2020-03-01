@@ -29,7 +29,7 @@ public class Shooter extends SubsystemBase {
   private WPI_VictorSPX widemas = new WPI_VictorSPX(PowCon.wideID);
   //private WPI_VictorSPX widefol = new WPI_VictorSPX(PowCon.widefolID);
 
-  private double setVel = 0;
+  private double setVel = 0,dist=0;
   
    /**
    * Creates a new Shooter.
@@ -81,8 +81,21 @@ public class Shooter extends SubsystemBase {
   public void wideout(){
     widemas.set(0);
   }
+ 
 
-
+  public void  emergencyshot(){
+    flywheel.set(ControlMode.PercentOutput, 0.7);
+  }
+  public void  emergencyconyor(){
+    conveyor.set(ControlMode.PercentOutput, 0.8);
+    widemas.set(-0.5);
+  }
+  public void setDist(double Dist){
+  dist=Dist;
+  }
+  public double getDist(){
+    return dist;
+  }
   @Override
   public void periodic() {
     SmartDashboard.putNumber("flyspeed", flywheel.getSelectedSensorVelocity());

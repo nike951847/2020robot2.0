@@ -13,13 +13,16 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.VisCon;
+import frc.robot.subsystems.Powercell.Shooter;
 
 
 public class Vision extends SubsystemBase {
 
   /**
    * Creates a new Vision.
+   * 
    */
+  private Shooter shooter =new Shooter();
   private NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight-unicorn");
   private double x,y,area,dist;
   public Vision() {
@@ -60,6 +63,7 @@ public class Vision extends SubsystemBase {
     y = ty.getDouble(0.0);
     }
     SmartDashboard.putNumber("dist", getDist());
+    shooter.setDist(getDist());
 
     // This method will be called once per scheduler run
   }

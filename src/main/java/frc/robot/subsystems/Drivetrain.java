@@ -28,7 +28,7 @@ public class Drivetrain extends SubsystemBase {
   private WPI_TalonFX rightmas = new WPI_TalonFX(DrCon.RightmasterID);
   private WPI_TalonFX rightfol = new WPI_TalonFX(DrCon.RightfollowerID);
 // private AHRS ahrs = new AHRS(SPI.Port.kMXP);
-  private double disterr,disttar,a=0.3,i=0;
+  private double disttar,a=0.3,i=0;
   private double m_quickStopAccumulator = 0,leftout=0,rightout=0;
 
   /**
@@ -51,22 +51,15 @@ public class Drivetrain extends SubsystemBase {
     leftmas.set(ControlMode.PercentOutput,-a);
     rightmas.set(ControlMode.PercentOutput,-a);
    // disttar = dist*DrCon.enoderunit;
-   i++;
-   SmartDashboard.putNumber("key", i);
-   if(i>100){
-     a=0;
-   }
+   
 
   }
   public void drivedist(double a){
+    
 
   }
   public boolean drivedistend(){
     return Math.abs(disttar-leftmas.getSelectedSensorPosition(0))<500;
-  }
-  public void distaim(double distpoint){
-    disterr = distpoint;
-
   }
   public double curvaturedrive(double xSpeed,double zRotation,boolean isQuickTurn){
     

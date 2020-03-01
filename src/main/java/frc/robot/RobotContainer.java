@@ -16,10 +16,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.Button;
 import frc.robot.commands.Aim;
 import frc.robot.commands.FastShoot;
+import frc.robot.commands.Intakecom;
 import frc.robot.commands.LongShoot;
 import frc.robot.commands.Auto.Easyauto;
 import frc.robot.commands.Auto.Easyauto1;
@@ -50,7 +52,7 @@ public class RobotContainer {
   private final Joystick         drivestation       = new Joystick(2);
   //private final ExampleCommand   m_autoCommand      = new ExampleCommand(m_exampleSubsystem);
   private final SendableChooser<Command> m_chooser = new SendableChooser<>();
-  private final Easyauto m_easyauto = new Easyauto(m_turret,m_drivetrain,m_vision,m_intake,m_shooter,m_aimer);
+  private final Easyauto m_easyauto = new Easyauto(m_turret,m_drivetrain,m_vision,m_intake,m_shooter,m_aimer,m_arm);
   private final Easyauto1 m_easyauto1 = new Easyauto1(m_drivetrain,m_vision);
   private final Easyauto2 m_easyauto2 = new Easyauto2(m_shooter,m_drivetrain,m_vision);
  
@@ -60,7 +62,7 @@ public class RobotContainer {
     configureButtonBindings();
     m_drivetrain.setDefaultCommand(new RunCommand(()->
     m_drivetrain.curvaturedrive(joystick.getY(), 0.3*joystick.getZ(),joystick.getRawButton(1)),m_drivetrain));
-
+    m_intake.setDefaultCommand(new Intakecom(m_arm, m_intake,joystick.getRawAxis(3)));
     m_chooser.addOption("Simple AutoUP", m_easyauto);
     m_chooser.addOption("Simple AutoMID", m_easyauto1);
     m_chooser.addOption("Simple AutoDOWN", m_easyauto2);
@@ -82,18 +84,14 @@ public class RobotContainer {
 
     new JoystickButton(drivestation, Button.aim)         .whenHeld(new Aim(m_turret, m_vision,m_aimer));
     new JoystickButton(drivestation, Button.shoot)       .whenHeld(new FastShoot(m_shooter));
-    new JoystickButton(drivestation, 3)                  .whenHeld(new LongShoot(m_shooter));
-   // new JoystickButton(drivestation, Button.wide)        .whenPressed(new InstantCommand(m_powercell::widein,m_powercell)).whenReleased(new InstantCommand(m_powercell::widestop,m_powercell));
-    //new JoystickButton(drivestation, 4)                  .whenPressed(new InstantCommand(m_intake::intake,m_intake)).whenReleased(new InstantCommand(m_intake::intakestop,m_intake));
-    new JoystickButton(joystick,     Button.intake)      .whenPressed(new InstantCommand(m_intake::intake,m_intake)).whenReleased(new InstantCommand(m_intake::intakestop,m_intake));
-    new JoystickButton(drivestation, Button.armup)       .whenPressed(new InstantCommand(m_arm::armup,m_arm)).whenReleased(new InstantCommand(m_arm::armstop,m_arm));
-    new JoystickButton(drivestation, Button.armdown)     .whenPressed(new InstantCommand(m_arm::armdown,m_arm)).whenReleased(new InstantCommand(m_arm::armstop,m_arm));
+    new JoystickButton(drivestation, 3)                  .whenHeld(new LongShoot(m_shooter));new JoystickButton(joystick,     Button.emergencyshooter)    .whenPressed(new InstantCommand(()->m_shooter.emergencyshot()).andThen(new WaitCommand(2).andThen(new InstantCommand(()->m_shooter.emergencyconyor())))).whenReleased(new InstantCommand(()->m_shooter.flywheelstop()).andThen(()->m_shooter.conveyorstop()));
+    new JoystickButton(joystick,     Button.emergencyintake)      .whenPressed(new InstantCommand(m_intake::intake,m_intake)).whenReleased(new InstantCommand(m_intake::intakestop,m_intake));
+    new JoystickButton(joystick,     Button.emergencyarmup)       .whenPressed(new InstantCommand(m_arm::armup,m_arm)).whenReleased(new InstantCommand(m_arm::armstop,m_arm));
+    new JoystickButton(drivestation, Button.emergencyarmdown)     .whenPressed(new InstantCommand(m_arm::armdown,m_arm)).whenReleased(new InstantCommand(m_arm::armstop,m_arm));
     new JoystickButton(drivestation, Button.turretleft)  .whenPressed(new InstantCommand(m_turret::turretleft,m_turret)).whenReleased(new InstantCommand(m_turret::turretstop,m_turret));
     new JoystickButton(drivestation, Button.turretright) .whenPressed(new InstantCommand(m_turret::turretright,m_turret)).whenReleased(new InstantCommand(m_turret::turretstop,m_turret));
     
   }
-
-
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *

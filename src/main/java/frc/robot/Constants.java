@@ -95,20 +95,38 @@ public final class Constants {
     
     
     }
+    public static class CliCon{
+        public static final int climbermasID = 0;
+        public static final int climberfolID = 4;
+        public static final int hookID = 0;
+        public static final int[] riseID =new int[]{1,2};
+
+        
+    }
     public static class Button{
+        //Driverstation
+        /**____________________
+         * |                  |
+         * |    ○ ○  ○  ○     |              
+         * |                  |                      
+         * |    ○ ○  ○  ○     |
+         * |                  |
+         * ____________________
+         */
         public static final int shoot = 1;
 
         public static final int aim = 2;
-        public static final int turrethoming=4;
-        //test
-        public static final int turretleft = 5;
-        public static final int turretright = 6;
-        //
-        public static final int intake = 2;
+        public static final int turretleft = 3;
+        public static final int turretright = 4;
 
-        public static final int armdown = 8;
-        public static final int armup = 7;
-        public static final int wide = 3;
+        //Joystick
+        public static final int emergencyarmdown  = 7;
+        public static final int emergencyarmup    = 8;
+        public static final int emergencyintake   = 9;
+        public static final int emergencyshooter = 10;
+        
+
+
     }
 
 

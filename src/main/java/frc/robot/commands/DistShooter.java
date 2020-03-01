@@ -7,53 +7,48 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Powercell.Arm;
-import frc.robot.subsystems.Powercell.Intake;
+import frc.robot.subsystems.Powercell.Shooter;
 
-public class Intakecom extends CommandBase {
-  Arm m_arm;
-  Intake m_intake;
-  double joystick;
+public class DistShooter extends CommandBase {
+  private Shooter m_shooter;
   /**
-   * Creates a new Intake.
+   * Creates a new DistShooter.
    */
-  public Intakecom(Arm arm, Intake intake,double va) {
-    m_arm = arm;
-    m_intake = intake;
-    joystick = va;
-    addRequirements(m_arm);
-    addRequirements(m_intake);
+  public DistShooter(Shooter shooter) {
+    m_shooter = shooter;
     // Use addRequirements() here to declare subsystem dependencies.
+  addRequirements(shooter);
   }
+
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(joystick<-0.5){
-    m_arm.armdown();
-    m_intake.intake();}
-    else if(joystick>0.5){
-      m_arm.armup();
-      m_intake.intakestop();
-      }
+    if(m_shooter.getDist()<5.5){
+      
+    m_shooter.flywheelspinup(12000);
+    m_shooter.fastconveyor();
+    
+    SmartDashboard.putString("FlyWheelstatus", "flywheelSpin to 12000");
+      
+    }
     else{
-      m_arm.armstop();
+      m_shooter.flywheelspinup(17000);
+      m_shooter.longconveyor();
+      SmartDashboard.putString("FlyWheelstatus", "longflywheelSpin");
     }
-    }
+  }
 
-  
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_arm.armup();
-    m_intake.intakestop();
   }
 
   // Returns true when the command should end.
